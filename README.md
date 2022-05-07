@@ -1,8 +1,8 @@
 # VaginalMicrobiota
 vaginal microbiotata data analysis
-curve_fit.R contain scripts for fit microbial data;
+curve_fit.R contains scripts for fit microbial data;
 
-FunClu.R contain scripts for Functional Clustering of these data and visualization;
+FunClu.R contains scripts for Functional Clustering of these data and visualization;
 
-ode.R contain scripts for solve ODE and network reconstruction
+ode.R contains scripts for solve ODE and network reconstruction
 
