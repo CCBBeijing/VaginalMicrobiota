@@ -31,18 +31,6 @@ get_biSAD1 <- function(par,n1,n2){
 }
 
 #EM
-Q.function <- function(par, omega, X, k, times){
-  n = dim(X)[1]; d = dim(X)[2]
-  par.cov <- par[1:4]
-  par.mu <-  matrix(par[-c(1:4)], nrow = k, ncol = 4)
-  mu <- cbind(power_equation(times[1:30],par.mu[1:k,1:2]), power_equation(times[31:60], par.mu[1:k,3:4]))
-  cov <- get_biSAD1(par.cov, n1=30,n2=30)
-  mvn.log <- sapply(1:k, function(c) dmvnorm(X, mu[c,], cov, log = TRUE))
-  #mvn.log[mvn.log==-Inf] = log(1e-250)
-  Q.LL <- -sum(omega * mvn.log)
-  return(Q.LL)
-}
-
 
 mle <- function(par, prob, X, k){
   n = dim(X)[1]; d = dim(X)[2]
@@ -51,11 +39,6 @@ mle <- function(par, prob, X, k){
   mu <- cbind(power_equation(times[1:30],par.mu[1:k,1:2]), power_equation(times[31:60], par.mu[1:k,3:4]))
   cov <- get_biSAD1(par.cov, n1=30,n2=30)
   mvn <- sapply(1:k, function(c) dmvnorm(X, mu[c,], cov)*prob[c] )
-  #for (i in 1:n) {
-  #if (any(mvn[i,]==0)) {
-  #mvn[i,which(mvn[i,]==0)] = 1e-250 * prob[which(mvn[i,]==0)]
-  #}
-  #}
   mvn[mvn==0] = 1e-250
   LL <- sum(-log(rowSums(mvn)))
   return(LL)
